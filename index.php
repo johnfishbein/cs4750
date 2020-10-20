@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <tr style="background-color:#B0B0B0">
     <th width="30%">Question</th>        
     <th width="20%">Deadline</th>
+    <th width="20%">Total Votes</th>
     <th width="10%">ID</th>
     <th width="30%">View</th>
   </tr>
@@ -47,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <tr>
     <td><?php echo $item['question']; ?></td>
     <td><?php echo $item['deadline']; ?></td>        
+    <td><?php echo $item['total_votes']; ?></td>        
     <td><?php echo $item['poll_id']; ?></td>       
     <td>
     <form action="view_poll.php" method="get">

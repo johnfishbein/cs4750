@@ -2,7 +2,18 @@
 require('connectdb.php');
 require('poll_db.php');
 
+echo $_GET['poll_to_view'];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+	if (!empty($_POST['action']) && ($_POST['action'] == 'Vote'))
+	{
+		voteOnPoll($_POST['selected_option']);
+	}
+}
+
 $poll_info = getPoll($_GET['poll_to_view']);
+
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +33,6 @@ $poll_info = getPoll($_GET['poll_to_view']);
 <div class="container">
 
 <hr/>
-<h2>List of Polls</h2>
 <h3><?php echo $poll_info[0]['question'] ?></h3>
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
@@ -38,8 +48,8 @@ $poll_info = getPoll($_GET['poll_to_view']);
     <td><?php echo $option['votes']; ?></td>        
     <td>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-        <input type="submit" value="Vote" name="action" class="btn btn-danger" title="Vote on this option" />      
-        <input type="hidden" name="friend_to_delete" value="<?php echo $item['option_id'] ?>" />
+        <input type="submit" value="Vote" name="action" class="btn btn-danger" title="Vote on this option"/>      
+        <input type="hidden" name="selected_option" value="<?php echo $option['option_id'] ?>" />
       </form>
       
     </td>                                                          
