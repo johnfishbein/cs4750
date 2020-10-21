@@ -2,6 +2,7 @@
 require('connectdb.php');
 require('poll_db.php');
 
+// $table_rows = ""; // default to two table rows
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
    if (!empty($_POST['action']) && ($_POST['action']=='Submit'))
@@ -10,6 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       addPoll($_POST['question'], $timestamp, $_POST['option1'], $_POST['option2'], $_POST['option3']);
     header("Location: index.php");
    }
+  //  elseif (!empty($_POST['table_rows'])
+  //  {
+  //    $table_rows = $_POST['table_rows'];
+  //  }
 }
 ?>
 
@@ -47,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </div> 
   <div class="form-group">
     Option 3
-    <input type="text" class="form-control" name="option3"/>        
+    <input type="text" class="form-control" name="option3" required />        
   </div> 
      
   <input type="submit" value="Submit" name="action" class="btn btn-dark" title="Create a new Poll" />
