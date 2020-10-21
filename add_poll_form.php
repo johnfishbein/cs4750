@@ -4,9 +4,9 @@ require('poll_db.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-   if (!empty($_POST['action']) && ($_POST['action']=='Add'))
+   if (!empty($_POST['action']) && ($_POST['action']=='Submit'))
    {
-      $timestamp = date("Y-m-d H:i:s");
+      $timestamp = date("Y-m-d H:i:s"); // need to be able to take input as datetime
       addPoll($_POST['question'], $timestamp, $_POST['option1'], $_POST['option2'], $_POST['option3']);
     header("Location: index.php");
    }
@@ -50,9 +50,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <input type="text" class="form-control" name="option3"/>        
   </div> 
      
-  <input type="submit" value="Add" name="action" class="btn btn-dark" title="Create a new Poll" />
+  <input type="submit" value="Submit" name="action" class="btn btn-dark" title="Create a new Poll" />
   
 </form>  
+<form action="index.php" method="post">
+  <input type="submit" value="Return to Polls List" name="action" class="btn btn-primary" title="Return" />             
+</form> 
 
   
 <hr/>

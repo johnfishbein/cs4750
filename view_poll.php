@@ -9,7 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	if (!empty($_POST['action']) && ($_POST['action'] == 'Vote'))
 	{
 		voteOnPoll($_POST['selected_option']);
-	}
+  }
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Edit Poll'))
+  {
+    header("Location: edit_poll.php");
+  }
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Return to Polls List'))
+  {
+    header("Location: index.php");
+  }
 }
 
 $poll_info = getPoll($_GET['poll_to_view']);
@@ -34,6 +42,10 @@ $poll_info = getPoll($_GET['poll_to_view']);
 
 <hr/>
 <h3><?php echo $poll_info[0]['question'] ?></h3>
+<form action="edit_poll.php" method="post">
+  <input type="submit" value="Edit Poll" name="action" class="btn btn-primary" title="Edit"/>             
+  <input type="hidden" name="poll_to_edit" value="<?php echo $_GET['poll_to_view'] ?>">
+</form> 
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
   <tr style="background-color:#B0B0B0">
@@ -57,8 +69,9 @@ $poll_info = getPoll($_GET['poll_to_view']);
   <?php endforeach; ?>
 </table>
 
-<form action="index.php" method="get">
-  <input type="submit" value="Return to Polls List" name="action" class="btn btn-primary" title="Create new poll" />             
+<!-- <form action="index.php" method="post"> -->
+<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+  <input type="submit" value="Return to Polls List" name="action" class="btn btn-primary" title="Return" />             
 </form> 
 
 </div>    

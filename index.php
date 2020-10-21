@@ -37,11 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
   <tr style="background-color:#B0B0B0">
-    <th width="30%">Question</th>        
+    <th width="50%">Question</th>        
     <th width="20%">Deadline</th>
-    <th width="20%">Total Votes</th>
+    <th width="10%">Total Votes</th>
     <th width="10%">ID</th>
-    <th width="30%">View</th>
+    <th width="10%">View</th>
   </tr>
   </thead>
   <?php foreach ($polls as $item): ?>
