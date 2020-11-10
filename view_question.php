@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     header("Location: question_list.php");
   }
 }
-
 // $poll_info = getPoll($_GET['poll_to_view']);
 $question_info = getQuestion($_GET['question_to_view']); // maybe change this to have it passed in
 $question_responses = getQuestionResponses($_GET['question_to_view']);

@@ -10,7 +10,9 @@ if(isset($_POST['login_submit'])){
     $uname =  $_POST['txt_uname'];
     $pwd = $_POST['txt_pwd'];
     
-    $query = "SELECT user_id, COUNT(*) AS user_cnt FROM users WHERE username = :username AND password = :password";
+    $query = "SELECT user_id, COUNT(*) AS user_cnt FROM users 
+                WHERE username = :username AND password = :password
+                GROUP BY user_id";
     $statment = $db->prepare($query);
     $statment->bindValue(":username", $uname);
     $statment->bindValue(":password", $pwd);
