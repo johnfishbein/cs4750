@@ -2,13 +2,13 @@
 require('connectdb.php');
 require('poll_db.php');
 
-echo $_GET['poll_to_view'];
+// echo $_GET['poll_to_view'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	if (!empty($_POST['action']) && ($_POST['action'] == 'Vote'))
 	{
-		voteOnPoll($_POST['selected_option']);
+		voteOnPoll($_POST['selected_option'], $_POST['poll_to_view']);
   }
   elseif (!empty($_POST['action']) && ($_POST['action'] == 'Edit Poll'))
   {
@@ -42,6 +42,7 @@ $poll_info = getPoll($_GET['poll_to_view']);
 
 <hr/>
 <h3><?php echo $poll_info[0]['question'] ?></h3>
+<p> Is Active? <?php echo $poll_info[0]['is_active'] ?> </p>
 <form action="edit_poll.php" method="post">
   <input type="submit" value="Edit Poll" name="action" class="btn btn-primary" title="Edit"/>             
   <input type="hidden" name="poll_to_edit" value="<?php echo $_GET['poll_to_view'] ?>">
@@ -62,6 +63,7 @@ $poll_info = getPoll($_GET['poll_to_view']);
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
         <input type="submit" value="Vote" name="action" class="btn btn-danger" title="Vote on this option"/>      
         <input type="hidden" name="selected_option" value="<?php echo $option['option_id'] ?>" />
+        <input type="hidden" name="poll_to_view" value="<?php echo $_GET['poll_to_view'] ?>">
       </form>
       
     </td>                                                          

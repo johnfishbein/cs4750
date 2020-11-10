@@ -2,6 +2,21 @@
 require('connectdb.php');
 require('poll_db.php');
 
+// check if logged in
+if(!isset($_SESSION['uname'])){
+  header('Location: login.php');
+}
+// logout
+if(isset($_POST['logout_button'])){
+  session_destroy();
+  header('Location: index.php');
+}
+
+
+$uname = $_SESSION['uname'];
+$uid = $_SESSION['uid'];
+echo "<p>You are logged in as user '$uname' with id '$uid'</p>";
+
 $polls = getAllPolls();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -27,7 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <body>
 <div class="container">
 
-<form action="add_poll_form.php" method="get">
+<!-- <h1>Homepage</h1> -->
+  <form method='post' action="">
+      <input type="submit" value="Logout" name="logout_button" class="btn btn-secondary"> 
+  </form>
+
+  <form action="question_list.php" method='post'>
+      <input type="submit" value="Go to Questions List" name="question_redirect" class="btn btn-primary"> 
+  </form>
+
+<form action="add_poll_form.php" method="post">
   <input type="submit" value="Add Poll" name="action" class="btn btn-primary" title="Create new poll" />             
 </form> 
 
@@ -37,10 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
   <tr style="background-color:#B0B0B0">
-    <th width="50%">Question</th>        
-    <th width="20%">Deadline</th>
+    <th width="40%">Question</th>        
+    <th width="15%">Deadline</th>
     <th width="10%">Total Votes</th>
-    <th width="10%">ID</th>
+    <th width="20%">Creator</th>
+    <th width="5%">ID</th>
     <th width="10%">View</th>
   </tr>
   </thead>
@@ -49,7 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <td><?php echo $item['question']; ?></td>
     <td><?php echo $item['deadline']; ?></td>        
     <td><?php echo $item['total_votes']; ?></td>        
-    <td><?php echo $item['poll_id']; ?></td>       
+    <td><?php echo $item['creator']; ?></td>  
+    <td><?php echo $item['poll_id']; ?></td>  
     <td>
     <form action="view_poll.php" method="get">
         <input type="submit" value="View" name="action" class="btn btn-primary" title="Update the record" />             

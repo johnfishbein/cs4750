@@ -3,12 +3,13 @@ require('connectdb.php');
 require('poll_db.php');
 
 // $table_rows = ""; // default to two table rows
+// 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
    if (!empty($_POST['action']) && ($_POST['action']=='Submit'))
    {
-      $timestamp = date("Y-m-d H:i:s"); // need to be able to take input as datetime
-      addPoll($_POST['question'], $timestamp, $_POST['option1'], $_POST['option2'], $_POST['option3']);
+      // $timestamp = date("Y-m-d H:i:s"); // need to be able to take input as datetime
+      addPoll($_POST['question'], $_POST['option1'], $_POST['option2'], $_POST['option3']);
     header("Location: index.php");
    }
   //  elseif (!empty($_POST['table_rows'])
