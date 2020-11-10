@@ -1,6 +1,55 @@
 <?php 
 
-// returnsactive polls
+function getUserInfo()
+{
+    global $db;
+    $query = "SELECT * FROM users WHERE user_id = ".$_SESSION['uid'];
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closecursor();
+    return $result;
+}
+
+
+function updateUserInfo($new_username, $new_name, $new_email, $new_password)
+{
+    global $db;
+    $query = "UPDATE users SET username = :new_uname, name = :new_name, email = :new_email, password = :new_password WHERE user_id = :userid";
+    $statement = $db->prepare($query);
+
+    $statement->bindValue(':new_uname', $new_username);
+    $statement->bindValue(':new_name', $new_name);
+    $statement->bindValue(':new_email', $new_email);
+    $statement->bindValue(':new_password', $new_password);
+    $statement->bindValue(':userid', $_SESSION['uid']);
+    
+    $statement->execute();
+    $statement->closecursor();
+    $_SESSION['uname'] = $new_username;
+}
+
+function createUser($username, $name, $email, $password)
+{
+    global $db;
+    $query = "INSERT INTO users (username, email, name, `password`) VALUES (:uname, :email, :name, :pwd)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':uname', $username);
+    $statement->bindValue(':email', $email);
+    $statement->bindValue(':name', $name);
+    $statement->bindValue(':pwd', $password);
+    $statement->execute();
+    $statement->closecursor();
+
+
+    $_SESSION['uname'] = $username;
+    $_SESSION['uid'] = $db->lastInsertId();
+
+}
+
+
+
+// returns active polls
 function getAllPolls()
 {
     global $db;
@@ -139,7 +188,6 @@ function addPoll($question, $option1, $option2, $option3)
         
         // commits transaction
         $db->commit();
-        echo "Done";
     } catch (\Throwable $e) {
         // catch exception and rollback transaction
         $db->rollback();
@@ -198,7 +246,6 @@ function voteOnPoll($option_id, $poll_id) // maybe change to have a return
         $statement3->closecursor();        
         // commits transaction
         $db->commit();
-        echo "Done";
     } catch (\Throwable $e) {
         // catch exception and rollback transaction
         $db->rollback();
@@ -239,7 +286,6 @@ function updatePoll($poll_id, $poll_arr, $new_question, $new_option1, $new_optio
             $i = $i + 1;
         endforeach;
         $db->commit();
-        echo "Done";
     } catch (\Throwable $e) {
         // catch exception and rollback transaction
         $db->rollback();
@@ -284,7 +330,6 @@ function addQuestion($new_question)
         
         // commits transaction
         $db->commit();
-        echo "Done";
     } catch (\Throwable $e) {
         // catch exception and rollback transaction
         $db->rollback();
@@ -348,7 +393,6 @@ function leaveResponse($response_value, $question_id)
         $statement3->closecursor();        
         // commits transaction
         $db->commit();
-        echo "Done";
     } catch (\Throwable $e) {
         // catch exception and rollback transaction
         $db->rollback();
@@ -393,7 +437,6 @@ function leaveResponse($response_value, $question_id)
         
 //         // commit transaction
 //         $db->commit();
-//         echo "Done";
 //     } catch (\Throwable $e) {
 //         // catch exception and rollback transaction
 //         $db->rollback();

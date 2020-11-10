@@ -17,12 +17,7 @@ $uname = $_SESSION['uname'];
 $uid = $_SESSION['uid'];
 echo "<p>You are logged in as user '$uname' with id '$uid'</p>";
 
-// $polls = getAllPolls();
 $questions = getAllQuestions();
-
-// if ($_SERVER['REQUEST_METHOD'] == 'POST')
-// {
-// }
 
 ?>
 
@@ -49,6 +44,10 @@ $questions = getAllQuestions();
 
   <form action="index.php" method='post'>
       <input type="submit" value="Go to Polls List" name="poll_redirect" class="btn btn-primary"> 
+  </form>
+
+  <form action="user_page.php" method='post'>
+      <input type="submit" value="Edit User Account" name="user_account_redirect" class="btn btn-primary"> 
   </form>
 
 <form action="add_question_form.php" method="post">

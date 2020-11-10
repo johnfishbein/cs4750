@@ -21,7 +21,7 @@ if(isset($_POST['login_submit'])){
     $results = $statment->fetch();
     $statment->closecursor();
     $count = $results['user_cnt'];
-    if($count > 0){
+    if($count > 0){ // maybe should be == 1
         $_SESSION['uname'] = $uname;
         $_SESSION['uid'] = $results['user_id'];
         header('Location: index.php');
@@ -47,4 +47,10 @@ if(isset($_POST['login_submit'])){
             </div>
         </div>
     </form>
+
+<form action="create_user.php" method="post">
+  <input type="submit" value="Create Account" name="action" class="btn btn-primary" title="Create User" />             
+</form> 
+
+
 </div>

@@ -1,26 +1,26 @@
 <?php
+echo "need to implement??"
+// require('connectdb.php');
+// require('poll_db.php');
 
-require('connectdb.php');
-require('poll_db.php');
+// // echo "Poll NUM:";
+// // echo $_POST['poll_to_edit']; // post request from view poll 
 
-// echo "Poll NUM:";
-// echo $_POST['poll_to_edit']; // post request from view poll 
+// $poll_info = getPoll($_POST['poll_to_edit']);
 
-$poll_info = getPoll($_POST['poll_to_edit']);
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-   if (!empty($_POST['action']) && ($_POST['action']=='Update'))
-   {
-    //   $timestamp = date("Y-m-d H:i:s"); // need to be able to take input as datetime
-      updatePoll($_POST['poll_to_edit'], $poll_info, $_POST['question'], $_POST['option1'], $_POST['option2'], $_POST['option3']); // need to alter to options array
-      $poll_info = getPoll($_POST['poll_to_edit']);
-    }
-}
+// if ($_SERVER['REQUEST_METHOD'] == 'POST')
+// {
+//    if (!empty($_POST['action']) && ($_POST['action']=='Update'))
+//    {
+//     //   $timestamp = date("Y-m-d H:i:s"); // need to be able to take input as datetime
+//       updatePoll($_POST['poll_to_edit'], $poll_info, $_POST['question'], $_POST['option1'], $_POST['option2'], $_POST['option3']); // need to alter to options array
+//       $poll_info = getPoll($_POST['poll_to_edit']);
+//     }
+// }
 
 
 ?>
-
+<!-- 
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     Question
     <input type="text" class="form-control" name="question" value="<?php echo $poll_info[0]['question'] ?>" />        
   </div>  
-  <!-- NEED TO CHANGE THIS TO REFLECT ARRAY -->
   <div class="form-group">
     Option 1
     <input type="text" class="form-control" name="option1" value="<?php echo $poll_info[0]['option_value'] ?>" /> 
@@ -60,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      
   <input type="submit" value="Update" name="action" class="btn btn-dark" title="Update Poll" />
   <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_edit']?>" />
-  <!-- <input type="hidden" name="old_poll_info" value="<?php $poll_info?>" /> -->
 </form>  
 
 <form action="index.php" method="post">
@@ -74,4 +72,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </div>    
 </body>
 </html>
-  
+   -->
