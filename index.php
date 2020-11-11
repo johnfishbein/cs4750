@@ -69,27 +69,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <div class="container">
 
 <!-- <h1>Homepage</h1> -->
-  <form method='post' action="">
-      <input type="submit" value="Logout" name="logout_button" class="btn btn-secondary"> 
+
+  <form method='post' action="" style='float:left; margin:5px;'>
+      <input type="submit" value="Logout" name="logout_button" class="btn btn-secondary" > 
   </form>
 
-  <form action="question_list.php" method='post'>
+  <form action="question_list.php" method='post' style='float:left; margin:5px;'>
       <input type="submit" value="Go to Questions List" name="question_redirect" class="btn btn-primary"> 
   </form>
 
-  <form action="user_page.php" method='post'>
+  <form action="user_page.php" method='post' style='float:left; margin:5px;'>
       <input type="submit" value="Edit User Account" name="user_account_redirect" class="btn btn-primary"> 
   </form>
 
-<form action="add_poll_form.php" method="post">
+<form action="add_poll_form.php" method="post" style='float:left; margin:5px;'>
   <input type="submit" value="Add Poll" name="action" class="btn btn-primary" title="Create new poll" />             
-</form> 
+</form>
+
+
 
 
 <hr/>
-<h2>List of Polls</h2>
+<h2 style='opacity: 0%;'>List of Polls</h2>
 <body>
     <form action="index.php" method="post">
+    <h2>List of Polls</h2>
         <tr>
             <td>Select A Filter</td>
             <td></td>
