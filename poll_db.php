@@ -489,6 +489,15 @@ function isUserFollowingQuestion($question_id)
     }
     return 0;
 }
+function deactivatePoll($poll_id)
+{
+    global $db;
+    $query = "UPDATE polls SET is_active = 0 WHERE poll_id = :poll_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':poll_id', $poll_id);
+    $statement->execute();
+    $statement->closecursor();
+}
 
 
 

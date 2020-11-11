@@ -18,6 +18,8 @@ $uid = $_SESSION['uid'];
 echo "<p>You are logged in as user '$uname' with id '$uid'</p>";
 
 $polls = getAllPolls();
+// $polls = getActivePolls();
+// $polls = getFollowedPolls();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
