@@ -15,10 +15,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     header("Location: question_list.php");
   }
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Follow'))
+  {
+    followQuestion($_POST['question_to_view']);
+    $is_following = 1;
+  }
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Unfollow'))
+  {
+    unfollowQuestion($_POST['question_to_view']);
+    $is_following = 0;
+  }
 }
 // $poll_info = getPoll($_GET['poll_to_view']);
-$question_info = getQuestion($_GET['question_to_view']); // maybe change this to have it passed in
-$question_responses = getQuestionResponses($_GET['question_to_view']);
+if (isset($_GET['question_to_view']))
+{
+  $question_to_view = $_GET['question_to_view'];
+}
+else
+{
+  $question_to_view = $_POST['question_to_view'];
+}
+$is_following = isUserFollowingQuestion($question_to_view);
+$question_info = getQuestion($question_to_view); // maybe change this to have it passed in
+$question_responses = getQuestionResponses($question_to_view);
 
 ?>
 
@@ -42,9 +61,25 @@ $question_responses = getQuestionResponses($_GET['question_to_view']);
 <h3><?php echo $question_info[0]['question'] ?></h3>
 <p> Is Active? <?php echo $question_info[0]['is_active'] ?> </p>
 
+<!-- Display follow / unfollow button -->
+<?php if (!$is_following){ ?>
+  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+        <input type="submit" value="Follow" name="action" class="btn btn-primary" />      
+        <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>">
+  </form>
+
+<?php }else { ?>
+  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+        <input type="submit" value="Unfollow" name="action" class="btn btn-primary" />      
+        <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>">
+  </form>
+<?php } ?>
+
+
+
 <form action="edit_question.php" method="post">
   <input type="submit" value="Edit Question" name="action" class="btn btn-primary" title="Edit"/>             
-  <input type="hidden" name="question_to_edit" value="<?php echo $_GET['question_to_view'] ?>">
+  <input type="hidden" name="question_to_edit" value="<?php echo question_to_view ?>">
 </form> 
 
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
@@ -69,7 +104,7 @@ $question_responses = getQuestionResponses($_GET['question_to_view']);
 
 <form action="respond_to_question.php" method="post">
   <input type="submit" value="Respond to Question" name="action" class="btn btn-primary" title="Edit"/>             
-  <input type="hidden" name="question_to_respond" value="<?php echo $_GET['question_to_view'] ?>">
+  <input type="hidden" name="question_to_respond" value="<?php echo $question_to_view ?>">
 </form> 
 
 

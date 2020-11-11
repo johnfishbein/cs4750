@@ -19,11 +19,11 @@ echo "<p>You are logged in as user '$uname' with id '$uid'</p>";
 
 $polls = getAllPolls();
 
-// if ($_SERVER['REQUEST_METHOD'] == 'POST')
-// {
-//    if (!empty($_POST['action']) && ($_POST['action']=='Add'))
-//       addFriend($_POST['name'], $_POST['major'], $_POST['year']);
-// }
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+   if (!empty($_POST['action']) && ($_POST['action']=='Add'))
+      addFriend($_POST['name'], $_POST['major'], $_POST['year']);
+}
 ?>
 
 <!DOCTYPE html>
