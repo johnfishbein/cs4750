@@ -12,12 +12,37 @@ if(isset($_POST['logout_button'])){
   header('Location: index.php');
 }
 
+if (!isset($_POST['filter'])){
+  $current_filter = "active";
+}
+else{
+  $current_filter = $_POST['filter']; 
+}
+
 
 $uname = $_SESSION['uname'];
 $uid = $_SESSION['uid'];
 echo "<p>You are logged in as user '$uname' with id '$uid'</p>";
 
-$questions = getAllQuestions();
+$questions = getActiveQuestions();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+   if (!empty($_POST['filter']) && ($_POST['filter']=='allQ')) {
+      $questions = getAllQuestions();
+   }
+   elseif(!empty($_POST['filter']) && ($_POST['filter']=='followingQ')) {
+    $questions = questionsFollowedBy();
+   }
+   elseif(!empty($_POST['filter']) && ($_POST['filter']=='activeQ')) {
+    //  getActivePolls();
+     $polls = getActiveQuestions();
+  }
+  elseif(!empty($_POST['filter']) && ($_POST['filter']=='createdQ')) {
+    //  getActivePolls();
+     $polls = questionsYouCreated();
+  }
+}
 
 ?>
 
@@ -34,29 +59,58 @@ $questions = getAllQuestions();
   <link rel="shortcut icon" href="http://www.cs.virginia.edu/~up3f/cs4750/images/db-icon.png" type="image/ico" />  
 </head>
 
+
+
 <body>
 <div class="container">
 
 <!-- <h1>Homepage</h1> -->
-  <form method='post' action="">
+  <form method='post' action="" style='float:left; margin:5px;'>
       <input type="submit" value="Logout" name="logout_button" class="btn btn-secondary"> 
   </form>
 
-  <form action="index.php" method='post'>
+  <form action="index.php" method='post' style='float:left; margin:5px;'>
       <input type="submit" value="Go to Polls List" name="poll_redirect" class="btn btn-primary"> 
   </form>
 
-  <form action="user_page.php" method='post'>
+  <form action="user_page.php" method='post' style='float:left; margin:5px;'>
       <input type="submit" value="Edit User Account" name="user_account_redirect" class="btn btn-primary"> 
   </form>
 
-<form action="add_question_form.php" method="post">
+<form action="add_question_form.php" method="post" style='float:left; margin:5px;'>
   <input type="submit" value="Add Question" name="action" class="btn btn-primary" title="Create new Question" />             
 </form> 
 
 
+
 <hr/>
-<h2>List of Questions</h2>
+<h2 style='opacity:0%;'>List of Questions</h2>
+
+<body>
+    <form action="question_list.php" method="post">
+    <h2>List of Questions</h2>
+        <tr>
+            <td>Select A Filter</td>
+            <td></td>
+            <td>
+                <select name="filter" id='filter'>
+                    <option name="action" value="allQ">All Questions</option>
+                    <option name="action" value="followingQ">Questions You're Following</option>
+                    <option name="action" value="activeQ">Active Questions</option>
+                    <option name="action" value="createdQ">Questions You've Created</option>
+                </select>
+            </td>
+        </tr>
+        <td>
+        <input type="submit" name="btn_submit" /> 
+        <!-- <td>You're currently filtering by </td> -->
+        </td>
+    </form>
+    <script type="text/javascript">
+      document.getElementById('filter').value = "<?php echo $current_filter; ?>"
+    </script>
+</body>
+
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
   <tr style="background-color:#B0B0B0">

@@ -60,7 +60,7 @@ $poll_info = getPoll($_POST['poll_to_view']);
 
 <!-- Display follow / unfollow button -->
 <?php if (!$is_following){ ?>
-  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" >
         <input type="submit" value="Follow" name="action" class="btn btn-primary" />      
         <input type="hidden" name="poll_to_view" value="<?php echo $_POST['poll_to_view'] ?>">
   </form>
@@ -80,7 +80,7 @@ $poll_info = getPoll($_POST['poll_to_view']);
 <?php } ?>
 
 
-<table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+<table class="w3-table w3-bordered w3-card-4 center" style="width:70%;">
   <thead>
   <tr style="background-color:#B0B0B0">
     <th width="40%">Option</th>        
@@ -105,7 +105,7 @@ $poll_info = getPoll($_POST['poll_to_view']);
 </table>
 
 <!-- <form action="index.php" method="post"> -->
-<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" style='margin-top: 30px;'>
   <input type="submit" value="Return to Polls List" name="action" class="btn btn-primary" title="Return" />             
 </form> 
 
