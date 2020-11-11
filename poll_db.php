@@ -47,10 +47,47 @@ function createUser($username, $name, $email, $password)
 
 }
 
+function pollsYouCreated() {
+    global $db;
+    // $query = "SELECT * FROM polls";
+    $query = "SELECT question, poll_id, total_votes, deadline, name AS creator 
+    FROM polls NATURAL JOIN poll_created_by NATURAL JOIN users
+    WHERE users.user_id = poll_created_by.creator AND users.user_id = :userid";
 
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userid', $_SESSION['uid']);
+	$statement->execute();
+	
+	// fetchAll() returns an array for all of the rows in the result set
+	$results = $statement->fetchAll();
+	
+	// closes the cursor and frees the connection to the server so other SQL statements may be issued
+	$statement->closecursor();
+	
+	return $results;
+}
+
+function getAllPolls()
+{
+    global $db;
+    // $query = "SELECT * FROM polls";
+    $query = "SELECT question, poll_id, total_votes, deadline, name AS creator 
+                FROM polls NATURAL JOIN poll_created_by NATURAL JOIN users
+                WHERE users.user_id = poll_created_by.creator";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	
+	// fetchAll() returns an array for all of the rows in the result set
+	$results = $statement->fetchAll();
+	
+	// closes the cursor and frees the connection to the server so other SQL statements may be issued
+	$statement->closecursor();
+	
+	return $results;
+}
 
 // returns active polls
-function getAllPolls()
+function getActivePolls()
 {
     global $db;
     // $query = "SELECT * FROM polls";
@@ -500,6 +537,24 @@ function deactivatePoll($poll_id)
 }
 
 
+// $query = "SELECT question, poll_id, total_votes, deadline, name AS creator 
+// FROM polls NATURAL JOIN poll_created_by NATURAL JOIN users
+// WHERE is_active = TRUE AND users.user_id = poll_created_by.creator";
+
+function pollsFollowedBy()
+{
+    global $db;
+    $query = "SELECT question, poll_id, total_votes, deadline, name AS creator
+        FROM polls NATURAL JOIN poll_followed_by NATURAL JOIN users
+            WHERE user_following = :userid";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userid', $_SESSION['uid']);
+    $statement->execute();
+	$results = $statement->fetchAll();
+    $statement->closecursor();
+    return $results;
+
+}
 
 // function deleteOption($option_id)
 // // cant be used until we abstract out "options" in php

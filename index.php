@@ -12,20 +12,44 @@ if(isset($_POST['logout_button'])){
   header('Location: index.php');
 }
 
+if (!isset($_POST['filter'])){
+  $current_filter = "active";
+}
+else{
+  $current_filter = $_POST['filter']; 
+}
 
 $uname = $_SESSION['uname'];
 $uid = $_SESSION['uid'];
 echo "<p>You are logged in as user '$uname' with id '$uid'</p>";
+// echo "This is post: ", $_GET['action'];
+
 
 $polls = getAllPolls();
 // $polls = getActivePolls();
-// $polls = getFollowedPolls();
+// $polls = pollsFollowedBy();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-   if (!empty($_POST['action']) && ($_POST['action']=='Add'))
-      addFriend($_POST['name'], $_POST['major'], $_POST['year']);
+   if (!empty($_POST['filter']) && ($_POST['filter']=='all')) {
+      $polls = getAllPolls();
+   }
+   elseif(!empty($_POST['filter']) && ($_POST['filter']=='following')) {
+    //updatePoll($_POST['poll_to_edit'], $poll_info, $_POST['question'], $_POST['option1'], $_POST['option2'], $_POST['option3']); // need to alter to options array
+    // pollsFollowedBy();
+    $polls = pollsFollowedBy();
+   }
+   elseif(!empty($_POST['filter']) && ($_POST['filter']=='active')) {
+    //  getActivePolls();
+     $polls = getActivePolls();
+  }
+  elseif(!empty($_POST['filter']) && ($_POST['filter']=='created')) {
+    //  getActivePolls();
+     $polls = pollsYouCreated();
+  }
 }
+
+// echo "current filter, ", $current_filter;
 ?>
 
 <!DOCTYPE html>
@@ -64,6 +88,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <hr/>
 <h2>List of Polls</h2>
+<body>
+    <form action="index.php" method="post">
+        <tr>
+            <td>Select A Filter</td>
+            <td></td>
+            <td>
+                <select name="filter" id='filter'>
+                    <option name="action" value="all">All Polls</option>
+                    <option name="action" value="following">Polls You're Following</option>
+                    <option name="action" value="active">Active Polls</option>
+                    <option name="action" value="created">Polls You've Created</option>
+                </select>
+            </td>
+        </tr>
+        <td>
+        <input type="submit" name="btn_submit" /> 
+        <!-- <td>You're currently filtering by </td> -->
+        </td>
+    </form>
+    <script type="text/javascript">
+      document.getElementById('filter').value = "<?php echo $current_filter; ?>"
+    </script>
+</body>
+
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
   <tr style="background-color:#B0B0B0">
