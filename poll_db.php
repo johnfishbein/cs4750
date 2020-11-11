@@ -403,6 +403,95 @@ function leaveResponse($response_value, $question_id)
 
 }
 
+function followPoll($poll_id){
+    global $db;
+    $query = "INSERT INTO poll_followed_by (user_following, poll_id) VALUES (:userid, :poll_id)";
+    $statement = $db->prepare($query);
+
+    $statement->bindValue(':userid', $_SESSION['uid']);
+    $statement->bindValue(':poll_id', $poll_id);
+
+    $statement->execute();
+    $statement->closecursor();
+}
+
+function unfollowPoll($poll_id){
+    global $db;
+    $query = "DELETE FROM poll_followed_by WHERE user_following = :userid AND poll_id = :poll_id";
+    $statement = $db->prepare($query);
+
+    $statement->bindValue(':userid', $_SESSION['uid']);
+    $statement->bindValue(':poll_id', $poll_id);
+
+    $statement->execute();
+    $statement->closecursor();
+}
+
+function isUserFollowingPoll($poll_id)
+{
+    global $db;
+    $query = "SELECT COUNT(*) AS cnt FROM poll_followed_by WHERE user_following = :userid AND poll_id = :poll_id";
+    $statement = $db->prepare($query);
+
+    $statement->bindValue(':userid', $_SESSION['uid']);
+    $statement->bindValue(':poll_id', $poll_id);
+
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closecursor();
+
+    if ($result['cnt'] > 0){
+        return 1;
+    }
+    return 0;
+}
+
+function followQuestion($question_id){
+    global $db;
+    $query = "INSERT INTO question_followed_by (user_following, question_id) VALUES (:userid, :question_id)";
+    $statement = $db->prepare($query);
+
+    $statement->bindValue(':userid', $_SESSION['uid']);
+    $statement->bindValue(':question_id', $question_id);
+
+    $statement->execute();
+    $statement->closecursor();
+}
+
+function unfollowQuestion($question_id)
+{
+    global $db;
+    $query = "DELETE FROM question_followed_by WHERE user_following = :userid AND question_id = :question_id";
+    $statement = $db->prepare($query);
+
+    $statement->bindValue(':userid', $_SESSION['uid']);
+    $statement->bindValue(':question_id', $question_id);
+
+    $statement->execute();
+    $statement->closecursor();
+}
+
+function isUserFollowingQuestion($question_id)
+{
+    global $db;
+    $query = "SELECT COUNT(*) AS cnt FROM question_followed_by WHERE user_following = :userid AND question_id = :question_id";
+    $statement = $db->prepare($query);
+
+    $statement->bindValue(':userid', $_SESSION['uid']);
+    $statement->bindValue(':question_id', $question_id);
+
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closecursor();
+
+    if ($result['cnt'] > 0){
+        return 1;
+    }
+    return 0;
+}
+
+
+
 // function deleteOption($option_id)
 // // cant be used until we abstract out "options" in php
 // {

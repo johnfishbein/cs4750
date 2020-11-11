@@ -8,7 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	if (!empty($_POST['action']) && ($_POST['action'] == 'Vote'))
 	{
-		voteOnPoll($_POST['selected_option'], $_POST['poll_to_view']);
+    voteOnPoll($_POST['selected_option'], $_POST['poll_to_view']);
+    // $is_following = isUserFollowingPoll($_GET['poll_to_view']);
   }
   elseif (!empty($_POST['action']) && ($_POST['action'] == 'Edit Poll'))
   {
@@ -18,9 +19,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     header("Location: index.php");
   }
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Follow'))
+  {
+    followPoll($_POST['poll_to_view']);
+    $is_following = 1;
+  }
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Unfollow'))
+  {
+    unfollowPoll($_POST['poll_to_view']);
+    $is_following = 0;
+  }
 }
 
-$poll_info = getPoll($_GET['poll_to_view']);
+$is_following = isUserFollowingPoll($_POST['poll_to_view']);
+
+
+$poll_info = getPoll($_POST['poll_to_view']);
 
 ?>
 
@@ -43,9 +57,26 @@ $poll_info = getPoll($_GET['poll_to_view']);
 <hr/>
 <h3><?php echo $poll_info[0]['question'] ?></h3>
 <p> Is Active? <?php echo $poll_info[0]['is_active'] ?> </p>
+
+<!-- Display follow / unfollow button -->
+<?php if (!$is_following){ ?>
+  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+        <input type="submit" value="Follow" name="action" class="btn btn-primary" />      
+        <input type="hidden" name="poll_to_view" value="<?php echo $_POST['poll_to_view'] ?>">
+  </form>
+
+<?php }else { ?>
+  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+        <input type="submit" value="Unfollow" name="action" class="btn btn-primary" />      
+        <input type="hidden" name="poll_to_view" value="<?php echo $_POST['poll_to_view'] ?>">
+  </form>
+<?php } ?>
+
+
+
 <form action="edit_poll.php" method="post">
   <input type="submit" value="Edit Poll" name="action" class="btn btn-primary" title="Edit"/>             
-  <input type="hidden" name="poll_to_edit" value="<?php echo $_GET['poll_to_view'] ?>">
+  <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_view'] ?>">
 </form> 
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
@@ -63,7 +94,7 @@ $poll_info = getPoll($_GET['poll_to_view']);
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
         <input type="submit" value="Vote" name="action" class="btn btn-danger" title="Vote on this option"/>      
         <input type="hidden" name="selected_option" value="<?php echo $option['option_id'] ?>" />
-        <input type="hidden" name="poll_to_view" value="<?php echo $_GET['poll_to_view'] ?>">
+        <input type="hidden" name="poll_to_view" value="<?php echo $_POST['poll_to_view'] ?>">
       </form>
       
     </td>                                                          

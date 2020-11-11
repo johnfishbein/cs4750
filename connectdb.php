@@ -1,20 +1,20 @@
 <?php
 /******************************/
 // connecting to DB on XAMPP
-// echo "XAMPP ";
-// $username = 'jhf5my';
-// $password = 'aBcDe&12345';
-// $host = 'localhost:3306';
-// $dbname = 'jhf5my';
+echo "XAMPP ";
+$username = 'jhf5my';
+$password = 'aBcDe&12345';
+$host = 'localhost:3306';
+$dbname = 'jhf5my';
 
 
 /******************************/
 // connecting to DB on CS server
-echo "CS Server ";
-$username = 'jhf5my';
-$password = 'aBcDe&12345';
-$host = 'usersrv01.cs.virginia.edu';
-$dbname = 'jhf5my_PollsApp';
+// echo "CS Server ";
+// $username = 'jhf5my';
+// $password = 'aBcDe&12345';
+// $host = 'usersrv01.cs.virginia.edu';
+// $dbname = 'jhf5my_PollsApp';
 
 
 $dsn = "mysql:host=$host;dbname=$dbname";

@@ -81,12 +81,10 @@ $polls = getAllPolls();
     <td><?php echo $item['creator']; ?></td>  
     <td><?php echo $item['poll_id']; ?></td>  
     <td>
-    <form action="view_poll.php" method="get">
+    <form action="view_poll.php" method="post">
         <input type="submit" value="View" name="action" class="btn btn-primary" title="Update the record" />             
         <input type="hidden" name="poll_to_view" value="<?php echo $item['poll_id'] ?>" />
-      </form> 
-
-      
+      </form>       
     </td>                                                          
   </tr>
   <?php endforeach; ?>
