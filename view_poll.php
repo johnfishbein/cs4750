@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 $is_following = isUserFollowingPoll($_POST['poll_to_view']);
-
+$is_creator = isUserCreatorPoll($_POST['poll_to_view']);
 
 $poll_info = getPoll($_POST['poll_to_view']);
 
@@ -72,12 +72,14 @@ $poll_info = getPoll($_POST['poll_to_view']);
   </form>
 <?php } ?>
 
-
-
+<?php if ($is_creator){ ?>
 <form action="edit_poll.php" method="post">
   <input type="submit" value="Edit Poll" name="action" class="btn btn-primary" title="Edit"/>             
   <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_view'] ?>">
 </form> 
+<?php } ?>
+
+
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
   <tr style="background-color:#B0B0B0">

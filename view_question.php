@@ -25,6 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     unfollowQuestion($_POST['question_to_view']);
     $is_following = 0;
   }
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Re-activate Question'))
+  {
+    activateQuestion($_POST['question_to_view']);
+  }
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Deactivate Question'))
+  {
+    deactivateQuestion($_POST['question_to_view']);
+  }
+
+
 }
 // $poll_info = getPoll($_GET['poll_to_view']);
 if (isset($_GET['question_to_view']))
@@ -35,10 +45,13 @@ else
 {
   $question_to_view = $_POST['question_to_view'];
 }
+$is_creator = isUserCreatorQuestion($question_to_view);
 $is_following = isUserFollowingQuestion($question_to_view);
 $question_info = getQuestion($question_to_view); // maybe change this to have it passed in
 $question_responses = getQuestionResponses($question_to_view);
 
+
+echo "Is creator: ", $is_creator;
 ?>
 
 <!DOCTYPE html>
@@ -77,10 +90,24 @@ $question_responses = getQuestionResponses($question_to_view);
 
 
 
-<form action="edit_question.php" method="post">
-  <input type="submit" value="Edit Question" name="action" class="btn btn-primary" title="Edit"/>             
-  <input type="hidden" name="question_to_edit" value="<?php echo question_to_view ?>">
+<?php if ($is_creator){ ?>
+
+<?php if (!$question_info[0]['is_active']){ ?>
+  <form action="view_question.php" method="post">
+  <input type="submit" value="Re-activate Question" name="action" class="btn btn-secondary" title="Return" />  
+  <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>" />           
 </form> 
+<?php }else { ?>
+  <form action="view_question.php" method="post">
+  <input type="submit" value="Deactivate Question" name="action" class="btn btn-primary" title="Return" />  
+  <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>" />           
+</form> 
+
+<?php } ?>
+
+
+<?php } ?>
+
 
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>

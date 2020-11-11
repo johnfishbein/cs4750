@@ -232,6 +232,36 @@ function addPoll($question, $option1, $option2, $option3)
     }   
 }
 
+
+function isPollActive($poll_id)
+{
+    global $db;
+    // do check to ensure not voted
+    $query = "SELECT is_active FROM polls WHERE poll_id = :poll_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':poll_id', $poll_id);
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closecursor();
+
+    return $result['is_active'];
+}
+
+
+function isQuestionActive($question_id)
+{
+    global $db;
+    // do check to ensure not voted
+    $query = "SELECT is_active FROM questions WHERE question_id = :question_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':question_id', $question_id);
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closecursor();
+
+    return $result['is_active'];
+}
+
 /*
 Steps:
 1- Check whether user has voted on this poll previously
@@ -253,6 +283,9 @@ function voteOnPoll($option_id, $poll_id) // maybe change to have a return
 
     if ($result['cnt'] > 0){
         echo "You Already Voted on this Poll";
+    }
+    elseif (!isPollActive($poll_id)){
+        echo "This Poll is Inactive";
     }
     else
     {
@@ -399,7 +432,11 @@ function leaveResponse($response_value, $question_id)
     $statement->closecursor();
 
     if ($result['cnt'] > 0){
-        echo "You Already Voted on this Poll";
+        echo "You already responded to this question";
+        return 0;
+    }
+    elseif (!$isQuestionActive($question_id)){
+        echo "Question is not active";
         return 0;
     }
     
@@ -536,7 +573,62 @@ function deactivatePoll($poll_id)
     $statement->closecursor();
 }
 
+function activatePoll($poll_id)
+{
+    global $db;
+    $query = "UPDATE polls SET is_active = 1 WHERE poll_id = :poll_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':poll_id', $poll_id);
+    $statement->execute();
+    $statement->closecursor();
+}
 
+
+function deactivateQuestion($question_id)
+{
+    global $db;
+    $query = "UPDATE questions SET is_active = 0 WHERE question_id = :question_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':question_id', $question_id);
+    $statement->execute();
+    $statement->closecursor();
+}
+
+function activateQuestion($question_id)
+{
+    global $db;
+    $query = "UPDATE questions SET is_active = 1 WHERE question_id = :question_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':question_id', $question_id);
+    $statement->execute();
+    $statement->closecursor();
+}
+
+
+function getPollCreator($poll_id)
+{
+    global $db;
+    $query = "SELECT creator FROM poll_created_by WHERE poll_id = :poll_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':poll_id', $poll_id);
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closecursor();
+
+    return $result['creator'];
+    
+}
+
+function isUserCreatorPoll($poll_id)
+{
+    $creator = getPollCreator($poll_id);
+    if ($creator == $_SESSION['uid']){
+        return 1;
+    }
+    return 0;
+}
+
+<<<<<<< HEAD
 // $query = "SELECT question, poll_id, total_votes, deadline, name AS creator 
 // FROM polls NATURAL JOIN poll_created_by NATURAL JOIN users
 // WHERE is_active = TRUE AND users.user_id = poll_created_by.creator";
@@ -554,6 +646,29 @@ function pollsFollowedBy()
     $statement->closecursor();
     return $results;
 
+=======
+function getQuestionCreator($question_id)
+{
+    global $db;
+    $query = "SELECT creator FROM question_created_by WHERE question_id = :question_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':question_id', $question_id);
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closecursor();
+
+    return $result['creator'];
+    
+}
+
+function isUserCreatorQuestion($question_id)
+{
+    $creator = getQuestionCreator($question_id);
+    if ($creator == $_SESSION['uid']){
+        return 1;
+    }
+    return 0;
+>>>>>>> e9b1ef8d87a40d0437ef6ee5f89c3db40b205d72
 }
 
 // function deleteOption($option_id)
