@@ -628,7 +628,6 @@ function isUserCreatorPoll($poll_id)
     return 0;
 }
 
-<<<<<<< HEAD
 // $query = "SELECT question, poll_id, total_votes, deadline, name AS creator 
 // FROM polls NATURAL JOIN poll_created_by NATURAL JOIN users
 // WHERE is_active = TRUE AND users.user_id = poll_created_by.creator";
@@ -646,7 +645,8 @@ function pollsFollowedBy()
     $statement->closecursor();
     return $results;
 
-=======
+}
+
 function getQuestionCreator($question_id)
 {
     global $db;
@@ -668,7 +668,6 @@ function isUserCreatorQuestion($question_id)
         return 1;
     }
     return 0;
->>>>>>> e9b1ef8d87a40d0437ef6ee5f89c3db40b205d72
 }
 
 // function deleteOption($option_id)
