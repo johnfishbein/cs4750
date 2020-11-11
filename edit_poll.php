@@ -7,6 +7,7 @@ require('poll_db.php');
 // echo $_POST['poll_to_edit']; // post request from view poll 
 
 // $poll_info = getPoll($_POST['poll_to_edit']);
+$poll_info = getPoll($_POST['poll_to_edit']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -19,14 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     elseif (!empty($_POST['action']) && ($_POST['action']=='Re-activate Poll'))
    {
       activatePoll($_POST['poll_to_edit']);
+      $poll_info[0]['is_active'] = 1;
     }
     elseif (!empty($_POST['action']) && ($_POST['action']=='Deactivate Poll'))
    {
       deactivatePoll($_POST['poll_to_edit']);
+      $poll_info[0]['is_active'] = 0;
     }
 }
 
-$poll_info = getPoll($_POST['poll_to_edit']);
+// $poll_info = getPoll($_POST['poll_to_edit']);
 
 
 ?>

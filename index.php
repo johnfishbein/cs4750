@@ -25,7 +25,7 @@ echo "<p>You are logged in as user '$uname' with id '$uid'</p>";
 // echo "This is post: ", $_GET['action'];
 
 
-$polls = getAllPolls();
+$polls = getActivePolls();
 // $polls = getActivePolls();
 // $polls = pollsFollowedBy();
 
@@ -120,6 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <th width="10%">Total Votes</th>
     <th width="20%">Creator</th>
     <th width="5%">ID</th>
+    <th width="5%">Is Active?</th>
     <th width="10%">View</th>
   </tr>
   </thead>
@@ -130,6 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <td><?php echo $item['total_votes']; ?></td>        
     <td><?php echo $item['creator']; ?></td>  
     <td><?php echo $item['poll_id']; ?></td>  
+    <td><?php echo $item['is_active']; ?></td>  
     <td>
     <form action="view_poll.php" method="post">
         <input type="submit" value="View" name="action" class="btn btn-primary" title="Update the record" />             
