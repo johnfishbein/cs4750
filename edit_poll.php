@@ -6,7 +6,7 @@ require('poll_db.php');
 // echo "Poll NUM:";
 // echo $_POST['poll_to_edit']; // post request from view poll 
 
-$poll_info = getPoll($_POST['poll_to_edit']);
+// $poll_info = getPoll($_POST['poll_to_edit']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -16,11 +16,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       updatePoll($_POST['poll_to_edit'], $poll_info, $_POST['question'], $_POST['option1'], $_POST['option2'], $_POST['option3']); // need to alter to options array
       $poll_info = getPoll($_POST['poll_to_edit']);
     }
+    elseif (!empty($_POST['action']) && ($_POST['action']=='Re-activate Poll'))
+   {
+      activatePoll($_POST['poll_to_edit']);
+    }
     elseif (!empty($_POST['action']) && ($_POST['action']=='Deactivate Poll'))
    {
       deactivatePoll($_POST['poll_to_edit']);
     }
 }
+
+$poll_info = getPoll($_POST['poll_to_edit']);
 
 
 ?>
@@ -67,10 +73,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <!-- <input type="hidden" name="old_poll_info" value="<?php $poll_info?>" /> -->
 </form>  
 
-<form action="edit_poll.php" method="post">
+<?php if (!$poll_info[0]['is_active']){ ?>
+  <form action="edit_poll.php" method="post">
+  <input type="submit" value="Re-activate Poll" name="action" class="btn btn-secondary" title="Return" />  
+  <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_edit']?>" />           
+</form> 
+<?php }else { ?>
+  <form action="edit_poll.php" method="post">
   <input type="submit" value="Deactivate Poll" name="action" class="btn btn-primary" title="Return" />  
   <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_edit']?>" />           
 </form> 
+
+<?php } ?>
 
 <form action="index.php" method="post">
   <input type="submit" value="Return to Polls List" name="action" class="btn btn-primary" title="Return" />             

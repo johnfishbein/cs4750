@@ -21,11 +21,6 @@ $polls = getAllPolls();
 // $polls = getActivePolls();
 // $polls = getFollowedPolls();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-   if (!empty($_POST['action']) && ($_POST['action']=='Add'))
-      addFriend($_POST['name'], $_POST['major'], $_POST['year']);
-}
 ?>
 
 <!DOCTYPE html>
