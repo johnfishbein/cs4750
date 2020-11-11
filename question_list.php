@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
     <form action="question_list.php" method="post">
-    <h2>List of Polls</h2>
+    <h2>List of Questions</h2>
         <tr>
             <td>Select A Filter</td>
             <td></td>

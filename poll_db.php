@@ -486,7 +486,7 @@ function leaveResponse($response_value, $question_id)
         echo "You already responded to this question";
         return 0;
     }
-    elseif (!$isQuestionActive($question_id)){
+    elseif (!isQuestionActive($question_id)){
         echo "Question is not active";
         return 0;
     }
