@@ -99,9 +99,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             <td></td>
             <td>
                 <select name="filter" id='filter'>
+                  <option name="action" value="active">Active Polls</option>
                     <option name="action" value="all">All Polls</option>
                     <option name="action" value="following">Polls You're Following</option>
-                    <option name="action" value="active">Active Polls</option>
                     <option name="action" value="created">Polls You've Created</option>
                 </select>
             </td>

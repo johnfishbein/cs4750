@@ -61,7 +61,7 @@ $user_info = getUserInfo();
     <input type="text" class="form-control" name="password_check" value="<?php echo $user_info['password'] ?>"/>        
   </div> 
      
-  <input type="submit" value="Update" name="action" class="btn btn-dark" title="Update User Info" />
+  <input type="submit" value="Update" name="action" class="btn btn-dark" title="Update User Info" style='float: left; margin-right: 5px;' />
 </form>  
 
 

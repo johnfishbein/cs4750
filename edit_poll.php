@@ -70,28 +70,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     Option 3
     <input type="text" class="form-control" name="option3" value="<?php echo $poll_info[2]['option_value'] ?>"/>        
   </div> 
-     
-  <input type="submit" value="Update" name="action" class="btn btn-dark" title="Update Poll" />
+
+  <div>
+  <input type="submit" value="Update" name="action" class="btn btn-dark" title="Update Poll" style='float: left; margin-right: 5px;' />
   <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_edit']?>" />
   <!-- <input type="hidden" name="old_poll_info" value="<?php $poll_info?>" /> -->
 </form>  
 
 <?php if (!$poll_info[0]['is_active']){ ?>
-  <form action="edit_poll.php" method="post">
+  <form action="edit_poll.php" method="post" style='float: left; margin-right: 5px;'>
   <input type="submit" value="Re-activate Poll" name="action" class="btn btn-secondary" title="Return" />  
   <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_edit']?>" />           
 </form> 
 <?php }else { ?>
-  <form action="edit_poll.php" method="post">
+  <form action="edit_poll.php" method="post" style='float: left; margin-right: 5px;'>
   <input type="submit" value="Deactivate Poll" name="action" class="btn btn-primary" title="Return" />  
   <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_edit']?>" />           
 </form> 
 
 <?php } ?>
 
-<form action="index.php" method="post">
+<form action="index.php" method="post" style='float: left; margin-right: 5px;'>
   <input type="submit" value="Return to Polls List" name="action" class="btn btn-primary" title="Return" />             
 </form> 
+
+</div>
 
 
 
