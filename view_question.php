@@ -33,7 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     deactivateQuestion($_POST['question_to_view']);
   }
-
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Delete Question'))
+  {
+    deleteQuestion($_POST['question_to_view']);
+    header("Location: question_list.php");
+  }
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Delete Response'))
+  {
+    deleteResponse($_POST['response_to_delete'], $_POST['question_to_view']);
+  }
 
 }
 // $poll_info = getPoll($_GET['poll_to_view']);
@@ -51,7 +59,6 @@ $question_info = getQuestion($question_to_view); // maybe change this to have it
 $question_responses = getQuestionResponses($question_to_view);
 
 
-echo "Is creator: ", $is_creator;
 ?>
 
 <!DOCTYPE html>
@@ -106,6 +113,11 @@ echo "Is creator: ", $is_creator;
 
 <?php } ?>
 
+<form action="view_question.php" method="post">
+  <input type="submit" value="Delete Question" name="action" class="btn btn-warning" title="Edit"/>             
+  <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>">
+</form> 
+
 
 <?php } ?>
 </div>
@@ -114,11 +126,12 @@ echo "Is creator: ", $is_creator;
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%; margin-top: 50px;">
   <thead>
   <tr style="background-color:#B0B0B0">
-    <th width="70%">Response</th>        
+    <th width="65%">Response</th>        
     <th width="10%">Responder</th>
     <th width="10%">Response Timestamp</th>
-    <th width="10%">Response ID</th>
-    <!-- <th width="30%">Vote</th> -->
+    <th width="5%">Response ID</th>
+    <th width="5%"> </th>
+    <th width="5%"> </th>
   </tr>
   </thead>
   <?php foreach ($question_responses as $response): ?>
@@ -127,6 +140,25 @@ echo "Is creator: ", $is_creator;
     <td><?php echo $response['responder']; ?></td>
     <td><?php echo $response['response_timestamp']; ?></td>
     <td><?php echo $response['response_id']; ?></td> 
+    <?php if ($response['responder_id'] == $_SESSION['uid']){?>
+    <td>
+    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+        <input type="submit" value="Delete Response" name="action" class="btn btn-danger" />      
+        <input type="hidden" name="response_to_delete" value="<?php echo $response['response_id'] ?>" />
+        <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>">
+      </form>
+    </td>    
+    <td>
+
+    <form action="edit_response.php" method="post">
+        <input type="submit" value="Edit Response" name="action" class="btn btn-warning"/>      
+        <input type="hidden" name="response_to_edit" value="<?php echo $response['response_id'] ?>" />
+        <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>">
+      </form>
+    </td>    
+    <?php } ?>
+
+
   </tr>
   <?php endforeach; ?>
 </table>

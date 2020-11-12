@@ -34,7 +34,7 @@ $question_info = getQuestion($_POST['question_to_respond']);
 <div class="container">
 
 <hr/>
-<h3><?php echo $question_info[0]['question'] ?></h3>
+<h1><?php echo $question_info[0]['question'] ?></h1>
 
 <form name="mainForm" action="respond_to_question.php" method="post">
   <div class="form-group">

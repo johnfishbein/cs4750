@@ -216,7 +216,7 @@ function getQuestion($question_id)
 function getQuestionResponses($question_id)
 {
     global $db;
-    $query = "SELECT response_value, r.response_id, question, deadline, response_timestamp, name AS responder 
+    $query = "SELECT response_value, r.response_id, question, deadline, response_timestamp, l.user_responding AS responder_id, name AS responder 
                 FROM responses r, questions q, leaves_response l, users 
                 WHERE r.response_id = l.response_id AND r.question_id = q.question_id AND 
                     l.user_responding = users.user_id AND q.question_id = :question_id";
@@ -526,6 +526,33 @@ function leaveResponse($response_value, $question_id)
 
     return 1;
 
+}
+
+function getResponseWithQuestion($response_id)
+{
+    global $db;
+    $query = "SELECT response_value, question FROM responses NATURAL JOIN questions WHERE response_id = :response_id";
+    $statement = $db->prepare($query);
+
+    $statement->bindValue(':response_id', $response_id);
+
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closecursor();
+    return $result;
+}
+
+
+function updateResponse($response_id, $new_response)
+{
+    global $db;
+    $query = "UPDATE responses SET response_value = :new_response WHERE response_id = :response_id";
+    $statement = $db->prepare($query);
+
+    $statement->bindValue(':new_response', $new_response);
+    $statement->bindValue(':response_id', $response_id);
+    $statement->execute();
+    $statement->closecursor();
 }
 
 function followPoll($poll_id){
