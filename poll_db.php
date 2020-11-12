@@ -49,7 +49,7 @@ function createUser($username, $name, $email, $password)
 function questionsYouCreated() {
     global $db;
     // $query = "SELECT * FROM polls";
-    $query = "SELECT question, deadline, question_id, total_responses, creator
+    $query = "SELECT question, deadline, question_id, is_active, total_responses, creator
     FROM questions NATURAL JOIN question_created_by NATURAL JOIN users
     WHERE users.user_id = question_created_by.creator AND creator = :userid;";
 
@@ -108,7 +108,7 @@ function getAllPolls()
 function getActiveQuestions() {
     global $db;
     // $query = "SELECT * FROM polls";
-    $query = "SELECT question, question_id, deadline, total_responses, name AS creator
+    $query = "SELECT question, question_id, is_active, deadline, total_responses, name AS creator
     FROM questions NATURAL JOIN question_created_by NATURAL JOIN users
     WHERE is_active = 1 AND users.user_id = question_created_by.creator";
 	$statement = $db->prepare($query);
@@ -164,7 +164,7 @@ function getPoll($poll_id)
 
 function questionsFollowedBy() {
     global $db;
-    $query = "SELECT question, deadline, total_responses, creator, question_id
+    $query = "SELECT question, deadline, total_responses, is_active, creator, question_id
     FROM questions NATURAL JOIN question_created_by NATURAL JOIN question_followed_by
     WHERE user_following = :userid";
     $statement = $db->prepare($query);
@@ -180,7 +180,7 @@ function getAllQuestions()
 {
     global $db;
     // $query = "SELECT * FROM polls";
-    $query = "SELECT question, question_id, deadline, total_responses, name AS creator
+    $query = "SELECT question, question_id, deadline, is_active, total_responses, name AS creator
                 FROM questions NATURAL JOIN question_created_by NATURAL JOIN users
                 WHERE users.user_id = question_created_by.creator";
 	$statement = $db->prepare($query);

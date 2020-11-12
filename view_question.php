@@ -119,7 +119,7 @@ $question_responses = getQuestionResponses($question_to_view);
 <?php } ?>
 
 <form action="view_question.php" method="post" style='float: left; margin-right;' >
-  <input type="submit" value="Delete Question" name="action" class="btn btn-warning" title="Edit"/>             
+  <input type="submit" value="Delete Question" name="action" class="btn btn-danger" title="Edit"/>             
   <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>">
 </form> 
 

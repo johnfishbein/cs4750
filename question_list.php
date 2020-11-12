@@ -87,8 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <h2 style='opacity:0%;'>List of Questions</h2>
 
 <body>
+<h1>List of Questions</h1>
     <form action="question_list.php" method="post">
-    <h2>List of Questions</h2>
         <tr>
             <td>Select A Filter</td>
             <td></td>
@@ -117,8 +117,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <th width="40%">Question</th>        
     <th width="15%">Deadline</th>
     <th width="10%">Total Responses</th>
-    <th width="20%">Creator</th>
+    <th width="15%">Creator</th>
     <th width="5%">ID</th>
+    <th width="5%">Is Active?</th>
     <th width="10%">View</th>
   </tr>
   </thead>
@@ -129,14 +130,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <td><?php echo $item['total_responses']; ?></td>        
     <td><?php echo $item['creator']; ?></td>  
     <td><?php echo $item['question_id']; ?></td>  
+    <td><?php echo $item['is_active']; ?></td>  
     <td>
-
     <form action="view_question.php" method="get">
         <input type="submit" value="View" name="action" class="btn btn-primary" title="Update the record" />             
         <input type="hidden" name="question_to_view" value="<?php echo $item['question_id'] ?>" />
       </form> 
-
-      
     </td>                                                          
   </tr>
   <?php endforeach; ?>
