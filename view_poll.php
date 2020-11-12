@@ -29,6 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     unfollowPoll($_POST['poll_to_view']);
     $is_following = 0;
   }
+  elseif (!empty($_POST['action']) && ($_POST['action'] == 'Delete Poll'))
+  {
+    deletePoll($_POST['poll_to_delete']);
+    header("Location: index.php");
+  }
 }
 
 $is_following = isUserFollowingPoll($_POST['poll_to_view']);
@@ -73,10 +78,17 @@ $poll_info = getPoll($_POST['poll_to_view']);
 <?php } ?>
 
 <?php if ($is_creator){ ?>
+<div>
 <form action="edit_poll.php" method="post">
   <input type="submit" value="Edit Poll" name="action" class="btn btn-primary" title="Edit"/>             
   <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_view'] ?>">
 </form> 
+
+<form action="view_poll.php" method="post">
+  <input type="submit" value="Delete Poll" name="action" class="btn btn-warning" title="Edit"/>             
+  <input type="hidden" name="poll_to_delete" value="<?php echo $_POST['poll_to_view'] ?>">
+</form> 
+</div>
 <?php } ?>
 
 

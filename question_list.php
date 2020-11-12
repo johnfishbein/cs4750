@@ -13,7 +13,7 @@ if(isset($_POST['logout_button'])){
 }
 
 if (!isset($_POST['filter'])){
-  $current_filter = "active";
+  $current_filter = "activeQ";
 }
 else{
   $current_filter = $_POST['filter']; 

@@ -92,8 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <hr/>
 <h2 style='opacity: 0%;'>List of Polls</h2>
 <body>
+<h1>List of Polls</h1>
     <form action="index.php" method="post">
-    <h2>List of Polls</h2>
         <tr>
             <td>Select A Filter</td>
             <td></td>
