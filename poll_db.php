@@ -333,10 +333,15 @@ function voteOnPoll($option_id, $poll_id) // maybe change to have a return
     $statement->closecursor();
 
     if ($result['cnt'] > 0){
-        echo "You Already Voted on this Poll";
+        echo '<script language="javascript">';
+        echo 'alert("You already voted on this poll")';
+        echo '</script>';
     }
     elseif (!isPollActive($poll_id)){
-        echo "This Poll is Inactive";
+        // echo "This Poll is Inactive";
+        echo '<script language="javascript">';
+        echo 'alert("This Poll is Inactive")';
+        echo '</script>';
     }
     else
     {

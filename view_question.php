@@ -6,7 +6,11 @@ require('poll_db.php');
 
 if (isset($_GET['success']) && $_GET['success'] == 0 )
 {
-    echo "ERROR: You already responded to this question";
+    // echo "ERROR: You already responded to this question";
+    echo '<script language="javascript">';
+    echo 'alert("You already voted on this question")';
+    echo '</script>';
+    
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
