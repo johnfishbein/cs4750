@@ -721,47 +721,37 @@ function isUserCreatorQuestion($question_id)
     return 0;
 }
 
-// function deleteOption($option_id)
-// // cant be used until we abstract out "options" in php
-// {
-//     global $db;
-//     $delete_option = "DELETE FROM options WHERE option_id = :option_id";
-//     $statement = $db->prepare($delete_option);
-//     $statement->bindValue(':option_id', $option_id);
-//     $statement->execute();
-//     $statement->closecursor();
-// }
+function deletePoll($poll_id)
+{
+    echo "here";
+    global $db;
+    $query = "CALL deletePoll(:poll_id)";
+    $statement = $db->prepare($query);
+    $statement->bindParam(':poll_id', $poll_id, PDO::PARAM_INT);
+    $statement->execute();
+    $statement->closecursor();
+}
 
 
+function deleteQuestion($question_id)
+{
+    global $db;
+    $query = "CALL deleteQuestion(:question_id)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':question_id', $question_id);
+    $statement->execute();
+    $statement->closecursor();
+}
 
-// function deletePoll($poll_id)
-// {
-//     global $db;
-//     $delete_options = "DELETE FROM options WHERE poll_id = :poll_id";
-//     $delete_poll = "DELETE FROM polls WHERE poll_id = :poll_id";
-
-//     $statement1 = $db->prepare($delete_options);
-//     $statement1->bindValue(':poll_id', $poll_id);
-
-//     $statement2 = $db->prepare($delete_poll);
-//     $statement2->bindValue(':poll_id', $poll_id);
-
-//     try {
-//         $db->beginTransaction();
-//         $statement1->execute();
-//         $statement1->closecursor();
-//         $statement2->execute();
-//         $statement2->closecursor();
-        
-//         // commit transaction
-//         $db->commit();
-//     } catch (\Throwable $e) {
-//         // catch exception and rollback transaction
-//         $db->rollback();
-//         throw $e; // but the error must be handled anyway
-//     }  
-
-// }
-
+function deleteResponse($response_id, $question_id)
+{
+    global $db;
+    $query = "CALL deleteResponse(:response_id, :question_id)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':response_id', $response_id);
+    $statement->bindValue(':question_id', $question_id);
+    $statement->execute();
+    $statement->closecursor();
+}
 ?>
 
