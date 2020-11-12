@@ -35,12 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $questions = questionsFollowedBy();
    }
    elseif(!empty($_POST['filter']) && ($_POST['filter']=='activeQ')) {
-    //  getActivePolls();
-     $polls = getActiveQuestions();
+     $questions = getActiveQuestions();
   }
   elseif(!empty($_POST['filter']) && ($_POST['filter']=='createdQ')) {
-    //  getActivePolls();
-     $polls = questionsYouCreated();
+    $questions = questionsYouCreated();
   }
 }
 

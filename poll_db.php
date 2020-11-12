@@ -193,9 +193,9 @@ function getAllQuestions()
 // returns questions created by current user
 function questionsYouCreated() {
     global $db;
-    $query = "SELECT question, deadline, question_id, is_active, total_responses, creator
-    FROM questions NATURAL JOIN question_created_by NATURAL JOIN users
-    WHERE users.user_id = question_created_by.creator AND creator = :userid;";
+    $query = "SELECT question, deadline, question_id, is_active, total_responses, users.name AS creator
+                FROM questions NATURAL JOIN question_created_by NATURAL JOIN users
+                WHERE users.user_id = question_created_by.creator AND question_created_by.creator = :userid";
 
     $statement = $db->prepare($query);
     $statement->bindValue(':userid', $_SESSION['uid']);
@@ -205,7 +205,7 @@ function questionsYouCreated() {
 	$results = $statement->fetchAll();
 	
 	// closes the cursor and frees the connection to the server so other SQL statements may be issued
-	$statement->closecursor();
+    $statement->closecursor();
 	
 	return $results;
 }

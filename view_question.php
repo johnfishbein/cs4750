@@ -4,18 +4,6 @@ require('poll_db.php');
 
 // echo $_GET['question_to_view'];
 
-if (isset($_GET['success']) && $_GET['success'] == 0 )
-{
-    // echo "ERROR: You already responded to this question";
-    echo '<script language="javascript"> alert("You already responded to this question") </script>';
-    
-}
-elseif (isset($_GET['success']) && $_GET['success'] == 1 )
-{
-    // echo "ERROR: You already responded to this question";
-    echo '<script language="javascript"> alert("This question is inactive") </script>';
-    
-}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -52,6 +40,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   }
 
 }
+
+if (isset($_GET['success']) && $_GET['success'] == 0 )
+{
+    // echo "ERROR: You already responded to this question";
+    echo '<script language="javascript"> alert("You already responded to this question") </script>';
+    
+}
+elseif (isset($_GET['success']) && $_GET['success'] == 1 )
+{
+    // echo "ERROR: You already responded to this question";
+    echo '<script language="javascript"> alert("This question is inactive") </script>';
+}
+
 // $poll_info = getPoll($_GET['poll_to_view']);
 if (isset($_GET['question_to_view']))
 {
