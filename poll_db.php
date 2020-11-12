@@ -46,15 +46,18 @@ function createUser($username, $name, $email, $password)
     $_SESSION['uid'] = $db->lastInsertId();
 
 }
-function questionsYouCreated() {
-    global $db;
-    // $query = "SELECT * FROM polls";
-    $query = "SELECT question, deadline, question_id, is_active, total_responses, creator
-    FROM questions NATURAL JOIN question_created_by NATURAL JOIN users
-    WHERE users.user_id = question_created_by.creator AND creator = :userid;";
 
-    $statement = $db->prepare($query);
-    $statement->bindValue(':userid', $_SESSION['uid']);
+
+/* POLL LIST QUERIES */
+
+// returns active polls
+function getActivePolls()
+{
+    global $db;
+    $query = "SELECT question, poll_id, is_active ,total_votes, deadline, name AS creator 
+                FROM polls NATURAL JOIN poll_created_by NATURAL JOIN users
+                WHERE is_active = TRUE AND users.user_id = poll_created_by.creator";
+	$statement = $db->prepare($query);
 	$statement->execute();
 	
 	// fetchAll() returns an array for all of the rows in the result set
@@ -66,6 +69,27 @@ function questionsYouCreated() {
 	return $results;
 }
 
+// returns all polls
+function getAllPolls()
+{
+    global $db;
+    // $query = "SELECT * FROM polls";
+    $query = "SELECT question, poll_id, is_active, total_votes, deadline, name AS creator 
+                FROM polls NATURAL JOIN poll_created_by NATURAL JOIN users
+                WHERE users.user_id = poll_created_by.creator";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	
+	// fetchAll() returns an array for all of the rows in the result set
+	$results = $statement->fetchAll();
+	
+	// closes the cursor and frees the connection to the server so other SQL statements may be issued
+	$statement->closecursor();
+	
+	return $results;
+}
+
+// returns all polls created by current user
 function pollsYouCreated() {
     global $db;
     // $query = "SELECT * FROM polls";
@@ -86,25 +110,47 @@ function pollsYouCreated() {
 	return $results;
 }
 
-function getAllPolls()
+// returns all polls followed by current user
+function pollsFollowedBy()
 {
     global $db;
-    // $query = "SELECT * FROM polls";
-    $query = "SELECT question, poll_id, is_active, total_votes, deadline, name AS creator 
-                FROM polls NATURAL JOIN poll_created_by NATURAL JOIN users
-                WHERE users.user_id = poll_created_by.creator";
-	$statement = $db->prepare($query);
-	$statement->execute();
-	
-	// fetchAll() returns an array for all of the rows in the result set
+    $query = "SELECT question, p.poll_id, p.is_active, p.total_votes, p.deadline, u.name AS creator
+                FROM polls p NATURAL JOIN poll_created_by c NATURAL JOIN users u
+                WHERE u.user_id = c.creator AND p.poll_id IN (
+                    SELECT poll_id FROM poll_followed_by WHERE user_following = :userid
+                )";
+
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userid', $_SESSION['uid']);
+    $statement->execute();
 	$results = $statement->fetchAll();
-	
-	// closes the cursor and frees the connection to the server so other SQL statements may be issued
-	$statement->closecursor();
-	
-	return $results;
+    $statement->closecursor();
+    return $results;
 }
 
+// returns options for specfic poll
+function getPoll($poll_id)
+{
+    global $db;
+    $query = "SELECT question, is_active, total_votes, option_value, option_id, votes, deadline
+                FROM polls NATURAL JOIN `options`
+                WHERE poll_id = :poll_id";
+
+    $statement = $db->prepare($query);
+	$statement->bindValue(':poll_id', $poll_id);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    
+    // closes the cursor and frees the connection to the server so other SQL statements may be issued
+    $statement->closecursor();
+    return $results;
+}
+
+
+
+/* QUESTION LIST QUERIES */
+
+// returns active questions
 function getActiveQuestions() {
     global $db;
     // $query = "SELECT * FROM polls";
@@ -124,58 +170,7 @@ function getActiveQuestions() {
 
 }
 
-// returns active polls
-function getActivePolls()
-{
-    global $db;
-    // $query = "SELECT * FROM polls";
-    $query = "SELECT question, poll_id, is_active ,total_votes, deadline, name AS creator 
-                FROM polls NATURAL JOIN poll_created_by NATURAL JOIN users
-                WHERE is_active = TRUE AND users.user_id = poll_created_by.creator";
-	$statement = $db->prepare($query);
-	$statement->execute();
-	
-	// fetchAll() returns an array for all of the rows in the result set
-	$results = $statement->fetchAll();
-	
-	// closes the cursor and frees the connection to the server so other SQL statements may be issued
-	$statement->closecursor();
-	
-	return $results;
-}
-
-function getPoll($poll_id)
-{
-    global $db;
-    // $query = "SELECT * FROM polls NATURAL JOIN options WHERE poll_id = :poll_id";
-    $query = "SELECT question, is_active, total_votes, option_value, option_id, votes, deadline
-                FROM polls NATURAL JOIN `options`
-                WHERE poll_id = :poll_id";
-
-    $statement = $db->prepare($query);
-	$statement->bindValue(':poll_id', $poll_id);
-    $statement->execute();
-    $results = $statement->fetchAll();
-    
-    // closes the cursor and frees the connection to the server so other SQL statements may be issued
-    $statement->closecursor();
-    return $results;
-}
-
-function questionsFollowedBy() {
-    global $db;
-    $query = "SELECT question, deadline, total_responses, is_active, creator, question_id
-    FROM questions NATURAL JOIN question_created_by NATURAL JOIN question_followed_by
-    WHERE user_following = :userid";
-    $statement = $db->prepare($query);
-    $statement->bindValue(':userid', $_SESSION['uid']);
-    $statement->execute();
-    $results = $statement->fetchAll();
-    $statement->closecursor();
-    return $results;
-    
-}
-
+// returns all questions
 function getAllQuestions()
 {
     global $db;
@@ -194,6 +189,45 @@ function getAllQuestions()
 	
 	return $results;
 }
+
+// returns questions created by current user
+function questionsYouCreated() {
+    global $db;
+    $query = "SELECT question, deadline, question_id, is_active, total_responses, creator
+    FROM questions NATURAL JOIN question_created_by NATURAL JOIN users
+    WHERE users.user_id = question_created_by.creator AND creator = :userid;";
+
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userid', $_SESSION['uid']);
+	$statement->execute();
+	
+	// fetchAll() returns an array for all of the rows in the result set
+	$results = $statement->fetchAll();
+	
+	// closes the cursor and frees the connection to the server so other SQL statements may be issued
+	$statement->closecursor();
+	
+	return $results;
+}
+
+// returns questions followed by current user
+function questionsFollowedBy() {
+    global $db;
+    $query = "SELECT question, q.deadline, q.total_responses, q.is_active, q.question_id, u.name as creator
+                FROM questions q NATURAL JOIN question_created_by c NATURAL JOIN users u
+                WHERE u.user_id = c.creator AND q.question_id IN (
+                    SELECT question_id FROM question_followed_by WHERE user_following = :userid
+                )";
+
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userid', $_SESSION['uid']);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closecursor();
+    return $results;
+    
+}
+
 
 
 // should return question value and is active
@@ -709,25 +743,6 @@ function isUserCreatorPoll($poll_id)
         return 1;
     }
     return 0;
-}
-
-// $query = "SELECT question, poll_id, total_votes, deadline, name AS creator 
-// FROM polls NATURAL JOIN poll_created_by NATURAL JOIN users
-// WHERE is_active = TRUE AND users.user_id = poll_created_by.creator";
-
-function pollsFollowedBy()
-{
-    global $db;
-    $query = "SELECT question, poll_id, is_active, total_votes, deadline, name AS creator
-        FROM polls NATURAL JOIN poll_followed_by NATURAL JOIN users
-            WHERE user_following = :userid";
-    $statement = $db->prepare($query);
-    $statement->bindValue(':userid', $_SESSION['uid']);
-    $statement->execute();
-	$results = $statement->fetchAll();
-    $statement->closecursor();
-    return $results;
-
 }
 
 function getQuestionCreator($question_id)

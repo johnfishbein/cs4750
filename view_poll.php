@@ -34,6 +34,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     deletePoll($_POST['poll_to_delete']);
     header("Location: index.php");
   }
+  elseif (!empty($_POST['action']) && ($_POST['action']=='Re-activate Poll'))
+   {
+      activatePoll($_POST['poll_to_view']);
+      $poll_info[0]['is_active'] = 1;
+    }
+    elseif (!empty($_POST['action']) && ($_POST['action']=='Deactivate Poll'))
+   {
+      deactivatePoll($_POST['poll_to_view']);
+      $poll_info[0]['is_active'] = 0;
+    }
 }
 
 $is_following = isUserFollowingPoll($_POST['poll_to_view']);
@@ -61,7 +71,7 @@ $poll_info = getPoll($_POST['poll_to_view']);
 
 <hr/>
 <h3><?php echo $poll_info[0]['question'] ?></h3>
-<p> Is Active? <?php echo $poll_info[0]['is_active'] ?> </p>
+<!-- <p> Is Active? <?php echo $poll_info[0]['is_active'] ?> </p> -->
 
 <!-- Display follow / unfollow button -->
 <div style='border: dotted; color: white; padding-bottom: 5px;'>
@@ -80,9 +90,21 @@ $poll_info = getPoll($_POST['poll_to_view']);
 
 <?php if ($is_creator){ ?>
 
-<form action="edit_poll.php" method="post" style='float: left; margin: 5px;'>
+<?php if (!$poll_info[0]['is_active']){ ?>
+  <form action="view_poll.php" method="post" style='float: left; margin: 5px;'>
+  <input type="submit" value="Re-activate Poll" name="action" class="btn btn-secondary" title="Return" />  
+  <input type="hidden" name="poll_to_view" value="<?php echo $_POST['poll_to_view']?>" />           
+</form> 
+<?php }else { ?>
+  <form action="view_poll.php" method="post" style='float: left; margin: 5px;'>
+  <input type="submit" value="Deactivate Poll" name="action" class="btn btn-primary" title="Return" />  
+  <input type="hidden" name="poll_to_view" value="<?php echo $_POST['poll_to_view']?>" />           
+</form> 
 
-  <input type="submit" value="Edit Poll" name="action" class="btn btn-primary" title="Edit"/>             
+<?php } ?>
+
+<form action="edit_poll.php" method="post" style='float: left; margin: 5px;'>
+  <input type="submit" value="Edit Poll" name="action" class="btn btn-warning" title="Edit"/>             
   <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_view'] ?>">
 </form> 
 
@@ -91,6 +113,7 @@ $poll_info = getPoll($_POST['poll_to_view']);
   <input type="hidden" name="poll_to_delete" value="<?php echo $_POST['poll_to_view'] ?>">
 </form> 
 </div>
+
 <?php } ?>
 
 
