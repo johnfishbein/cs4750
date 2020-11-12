@@ -86,7 +86,7 @@ $poll_info = getPoll($_POST['poll_to_view']);
   <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_view'] ?>">
 </form> 
 
-<form action="view_poll.php" method="post">
+<form action="view_poll.php" method="post" style='float: left; margin: 5px;'>
   <input type="submit" value="Delete Poll" name="action" class="btn btn-warning" title="Edit"/>             
   <input type="hidden" name="poll_to_delete" value="<?php echo $_POST['poll_to_view'] ?>">
 </form> 
@@ -121,7 +121,7 @@ $poll_info = getPoll($_POST['poll_to_view']);
 </div>
 
 <!-- <form action="index.php" method="post"> -->
-<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" style='margin-top: 30px;'>
+<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" style='margin-top: 30px; margin-left: 160px;'>
   <input type="submit" value="Return to Polls List" name="action" class="btn btn-primary" title="Return" />             
 </form> 
 

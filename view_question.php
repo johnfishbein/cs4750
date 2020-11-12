@@ -83,6 +83,7 @@ $question_responses = getQuestionResponses($question_to_view);
 
 <!-- Display follow / unfollow button -->
 <div style='border: solid; color: white;'>
+<div>
 <?php if (!$is_following){ ?>
   <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" style='float:left; margin-right: 5px;'>
         <input type="submit" value="Follow" name="action" class="btn btn-primary" />      
@@ -113,13 +114,14 @@ $question_responses = getQuestionResponses($question_to_view);
 
 <?php } ?>
 
-<form action="view_question.php" method="post">
+<form action="view_question.php" method="post" style='float: left; margin-right;' >
   <input type="submit" value="Delete Question" name="action" class="btn btn-warning" title="Edit"/>             
   <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>">
 </form> 
 
 
 <?php } ?>
+</div>
 </div>
 
 
