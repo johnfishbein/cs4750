@@ -367,15 +367,11 @@ function voteOnPoll($option_id, $poll_id) // maybe change to have a return
     $statement->closecursor();
 
     if ($result['cnt'] > 0){
-        echo '<script language="javascript">';
-        echo 'alert("You already voted on this poll")';
-        echo '</script>';
+        echo '<script language="javascript"> alert("You already voted on this poll") </script>';
     }
     elseif (!isPollActive($poll_id)){
         // echo "This Poll is Inactive";
-        echo '<script language="javascript">';
-        echo 'alert("This Poll is Inactive")';
-        echo '</script>';
+        echo '<script language="javascript"> alert("This Poll is Inactive") </script>';
     }
     else
     {
@@ -527,7 +523,7 @@ function leaveResponse($response_value, $question_id)
     }
     elseif (!isQuestionActive($question_id)){
         echo "Question is not active";
-        return 0;
+        return 1;
     }
     
     // leave response
@@ -563,7 +559,7 @@ function leaveResponse($response_value, $question_id)
         throw $e; // but the error must be handled anyway
     }
 
-    return 1;
+    return 2;
 
 }
 
