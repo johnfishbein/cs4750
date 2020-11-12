@@ -75,14 +75,15 @@ echo "Is creator: ", $is_creator;
 <p> Is Active? <?php echo $question_info[0]['is_active'] ?> </p>
 
 <!-- Display follow / unfollow button -->
+<div style='border: solid; color: white;'>
 <?php if (!$is_following){ ?>
-  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" style='float:left; margin-right: 5px;'>
         <input type="submit" value="Follow" name="action" class="btn btn-primary" />      
         <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>">
   </form>
 
 <?php }else { ?>
-  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" style='float:left; margin-right: 5px;'>
         <input type="submit" value="Unfollow" name="action" class="btn btn-primary" />      
         <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>">
   </form>
@@ -94,12 +95,12 @@ echo "Is creator: ", $is_creator;
 
 <?php if (!$question_info[0]['is_active']){ ?>
   <form action="view_question.php" method="post">
-  <input type="submit" value="Re-activate Question" name="action" class="btn btn-secondary" title="Return" />  
+  <input type="submit" value="Re-activate Question" name="action" class="btn btn-secondary" title="Return" style='float:left; margin-right: 5px;'/>  
   <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>" />           
 </form> 
 <?php }else { ?>
   <form action="view_question.php" method="post">
-  <input type="submit" value="Deactivate Question" name="action" class="btn btn-primary" title="Return" />  
+  <input type="submit" value="Deactivate Question" name="action" class="btn btn-primary" title="Return" style='float:left; margin-right: 5px;'/>  
   <input type="hidden" name="question_to_view" value="<?php echo $question_to_view ?>" />           
 </form> 
 
@@ -107,9 +108,10 @@ echo "Is creator: ", $is_creator;
 
 
 <?php } ?>
+</div>
 
 
-<table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+<table class="w3-table w3-bordered w3-card-4 center" style="width:70%; margin-top: 50px;">
   <thead>
   <tr style="background-color:#B0B0B0">
     <th width="70%">Response</th>        
@@ -129,15 +131,18 @@ echo "Is creator: ", $is_creator;
   <?php endforeach; ?>
 </table>
 
-<form action="respond_to_question.php" method="post">
+
+<div style='margin-top: 10px;'>
+<form action="respond_to_question.php" method="post" style='float:left; margin-right: 5px;'>
   <input type="submit" value="Respond to Question" name="action" class="btn btn-primary" title="Edit"/>             
   <input type="hidden" name="question_to_respond" value="<?php echo $question_to_view ?>">
 </form> 
 
 
-<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" style='float:left; margin-right: 5px;'>
   <input type="submit" value="Return to Question List" name="action" class="btn btn-secondary" title="Return" />             
 </form> 
+</div>
 
 </div>    
 </body>

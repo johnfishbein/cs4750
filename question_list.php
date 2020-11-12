@@ -13,7 +13,7 @@ if(isset($_POST['logout_button'])){
 }
 
 if (!isset($_POST['filter'])){
-  $current_filter = "active";
+  $current_filter = "activeQ";
 }
 else{
   $current_filter = $_POST['filter']; 
@@ -94,9 +94,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             <td></td>
             <td>
                 <select name="filter" id='filter'>
+                    <option name="action" value="activeQ">Active Questions</option> 
                     <option name="action" value="allQ">All Questions</option>
                     <option name="action" value="followingQ">Questions You're Following</option>
-                    <option name="action" value="activeQ">Active Questions</option>
                     <option name="action" value="createdQ">Questions You've Created</option>
                 </select>
             </td>

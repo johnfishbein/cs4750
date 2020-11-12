@@ -59,28 +59,30 @@ $poll_info = getPoll($_POST['poll_to_view']);
 <p> Is Active? <?php echo $poll_info[0]['is_active'] ?> </p>
 
 <!-- Display follow / unfollow button -->
+<div style='border: dotted; color: white; padding-bottom: 5px;'>
 <?php if (!$is_following){ ?>
-  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" >
+  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" style='float: left; margin: 5px;'>
         <input type="submit" value="Follow" name="action" class="btn btn-primary" />      
         <input type="hidden" name="poll_to_view" value="<?php echo $_POST['poll_to_view'] ?>">
   </form>
 
 <?php }else { ?>
-  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" style='float: left; margin: 5px;'>
         <input type="submit" value="Unfollow" name="action" class="btn btn-primary" />      
         <input type="hidden" name="poll_to_view" value="<?php echo $_POST['poll_to_view'] ?>">
   </form>
 <?php } ?>
 
 <?php if ($is_creator){ ?>
-<form action="edit_poll.php" method="post">
+<form action="edit_poll.php" method="post" style='float: left; margin: 5px;'>
   <input type="submit" value="Edit Poll" name="action" class="btn btn-primary" title="Edit"/>             
   <input type="hidden" name="poll_to_edit" value="<?php echo $_POST['poll_to_view'] ?>">
 </form> 
 <?php } ?>
 
 
-<table class="w3-table w3-bordered w3-card-4 center" style="width:70%;">
+
+<table class="w3-table w3-bordered w3-card-4 center" style="width:70%; margin-top: 50px;">
   <thead>
   <tr style="background-color:#B0B0B0">
     <th width="40%">Option</th>        
@@ -103,6 +105,7 @@ $poll_info = getPoll($_POST['poll_to_view']);
   </tr>
   <?php endforeach; ?>
 </table>
+</div>
 
 <!-- <form action="index.php" method="post"> -->
 <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" style='margin-top: 30px;'>

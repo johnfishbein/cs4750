@@ -33,12 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <h1>Add Question</h1>
 
 <!-- <form action="formprocessing.php" method="post">  -->
-<form name="mainForm" action="add_question_form.php" method="post">
+<form name="mainForm" action="add_question_form.php" method="post" >
   <div class="form-group">
     New Question
     <input type="text" class="form-control" name="question" required/>        
   </div>  
-  <input type="submit" value="Submit" name="action" class="btn btn-dark" title="Create a new Question" />
+  <input type="submit" value="Submit" name="action" class="btn btn-dark" title="Create a new Question" style='float:left; margin-right: 5px;'/>
   
 </form>  
 <form action="question_list.php" method="post">
