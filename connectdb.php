@@ -2,20 +2,47 @@
 /******************************/
 // connecting to DB on XAMPP
 echo "XAMPP ";
-$username = 'jhf5my';
-$password = 'aBcDe&12345';
 $host = 'localhost:3306';
 $dbname = 'jhf5my';
+
+// admin 
+// $username = 'jhf5my';
+// $password = 'aBcDe&12345';
+
+// developer
+// $username = 'dev';
+// $password = 'aBcDe&12345';
+
+// user
+$username = 'user';
+$password = 'password';
+
+
 
 
 /******************************/
 // connecting to DB on CS server
 // echo "CS Server ";
+// $host = 'usersrv01.cs.virginia.edu';
+// $dbname = 'jhf5my';
+
+// admin
 // $username = 'jhf5my';
 // $password = 'aBcDe&12345';
-// $host = 'usersrv01.cs.virginia.edu';
-// $dbname = 'jhf5my_PollsApp';
 
+// dev
+// $username = 'jhf5my_a';
+// $password = 'aBcDe&12345';
+
+// user
+// $username = 'jhf5my_b';
+// $password = 'aBcDe&12345';
+
+
+
+
+/******************************/
+// db connection
 
 $dsn = "mysql:host=$host;dbname=$dbname";
 $db = "";
@@ -41,5 +68,8 @@ catch (Exception $e)       // handle any type of exception
    $error_message = $e->getMessage();
    echo "<p>Error message: $error_message </p>";
 }
+
+
+$que
 
 ?>
