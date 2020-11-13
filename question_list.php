@@ -138,7 +138,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </tr>
   <?php endforeach; ?>
 </table>
-        
+<form method='post' action="export.php" style='float:left; margin:5px;'>
+      <input type="submit" value="Export Questions" name="export" class="btn btn-info" > 
+</form> 
+
 </div>    
 </body>
 </html>
