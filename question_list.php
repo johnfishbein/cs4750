@@ -112,10 +112,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
   <tr style="background-color:#B0B0B0">
-    <th width="40%">Question</th>        
-    <th width="15%">Deadline</th>
+    <th width="50%">Question</th>        
+    <!-- <th width="15%">Deadline</th> -->
     <th width="10%">Total Responses</th>
-    <th width="15%">Creator</th>
+    <th width="20%">Creator</th>
     <th width="5%">ID</th>
     <th width="5%">Is Active?</th>
     <th width="10%">View</th>
@@ -124,11 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <?php foreach ($questions as $item): ?>
   <tr>
     <td><?php echo $item['question']; ?></td>
-    <td><?php echo $item['deadline']; ?></td>        
+    <!-- <td><?php echo $item['deadline']; ?></td>         -->
     <td><?php echo $item['total_responses']; ?></td>        
     <td><?php echo $item['creator']; ?></td>  
     <td><?php echo $item['question_id']; ?></td>  
-    <td><?php echo $item['is_active']; ?></td>  
+    <td><?php if ($item['is_active']){echo "Yes";} else {echo "No";} ?></td>  
     <td>
     <form action="view_question.php" method="get">
         <input type="submit" value="View" name="action" class="btn btn-primary" title="Update the record" />             

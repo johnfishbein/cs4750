@@ -88,7 +88,7 @@ $question_responses = getQuestionResponses($question_to_view);
 
 <hr/>
 <h3><?php echo $question_info[0]['question'] ?></h3>
-<p> Is Active? <?php echo $question_info[0]['is_active'] ?> </p>
+<!-- <p> Is Active? <?php echo $question_info[0]['is_active'] ?> </p> -->
 
 <!-- Display follow / unfollow button -->
 <div style='border: solid; color: white;'>
