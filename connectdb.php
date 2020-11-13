@@ -1,42 +1,40 @@
 <?php
-/******************************/
-// connecting to DB on XAMPP
-echo "XAMPP ";
-$host = 'localhost:3306';
+
+/************** CS Server Database Connections **************/
+echo "CS Server ";
+$host = 'usersrv01.cs.virginia.edu';
 $dbname = 'jhf5my';
 
-// admin 
-// $username = 'jhf5my';
-// $password = 'aBcDe&12345';
+// user account
+$username = 'jhf5my_a';
+$password = 'aBcDe&12345';
 
-// developer
-// $username = 'dev';
-// $password = 'aBcDe&12345';
-
-// user
-$username = 'user';
-$password = 'password';
-
-
-
-
-/******************************/
-// connecting to DB on CS server
-// echo "CS Server ";
-// $host = 'usersrv01.cs.virginia.edu';
-// $dbname = 'jhf5my';
-
-// admin
-// $username = 'jhf5my';
-// $password = 'aBcDe&12345';
-
-// dev
+// dev account
 // $username = 'jhf5my_b';
 // $password = 'aBcDe&12345';
 
-// user
-// $username = 'jhf5my_a';
+// admin account
+// $username = 'jhf5my';
 // $password = 'aBcDe&12345';
+
+
+/************** XAMPP Database Connections **************/
+// echo "XAMPP ";
+// $host = 'localhost:3306';
+// $dbname = 'jhf5my';
+
+// user acccount
+// $username = 'user';
+// $password = 'password';
+
+// developer account
+// $username = 'dev';
+// $password = 'aBcDe&12345';
+
+// admin account
+// $username = 'jhf5my';
+// $password = 'aBcDe&12345';
+
 
 
 
