@@ -781,7 +781,7 @@ function deleteQuestion($question_id)
     global $db;
     $query = "CALL deleteQuestion(:question_id)";
     $statement = $db->prepare($query);
-    $statement->bindValue(':question_id', $question_id);
+    $statement->bindParam(':question_id', $question_id, PDO::PARAM_INT);
     $statement->execute();
     $statement->closecursor();
 }
@@ -791,8 +791,8 @@ function deleteResponse($response_id, $question_id)
     global $db;
     $query = "CALL deleteResponse(:response_id, :question_id)";
     $statement = $db->prepare($query);
-    $statement->bindValue(':response_id', $response_id);
-    $statement->bindValue(':question_id', $question_id);
+    $statement->bindParam(':response_id', $response_id, PDO::PARAM_INT);
+    $statement->bindParam(':question_id', $question_id, PDO::PARAM_INT);
     $statement->execute();
     $statement->closecursor();
 }
